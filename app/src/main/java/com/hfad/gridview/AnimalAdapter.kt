@@ -13,7 +13,6 @@ class AnimalAdapter(
     var nameList: ArrayList<String>,
     var imageList: ArrayList<Int>
 ) : BaseAdapter() {
-
     override fun getCount(): Int {
 return nameList.size
     }
@@ -31,13 +30,20 @@ return 0
         convertView: View?,
         parent: ViewGroup?
     ): View {
-val view:View = LayoutInflater.from(parent?.context).inflate(/* resource = */ R.layout
-    .custom_layout,/* root = */ parent,/* attachToRoot = */ false)
+        val layoutInflater: LayoutInflater = context.getSystemService(Context
+            .LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        var animalName:TextView = view.findViewById(R.id.textView)
-        var animalImage: ImageView = view.findViewById(R.id.imageView)
+        var convertViewLocal = convertView
+
+      if(convertViewLocal == null){
+          convertViewLocal = layoutInflater.inflate(R.layout.custom_layout,
+              parent,false)
+      }
+
+        val animalName:TextView = convertViewLocal!!.findViewById(R.id.textView)
+        val animalImage: ImageView = convertViewLocal.findViewById(R.id.imageView)
         animalName.text = nameList[position]
         animalImage.setImageResource(imageList[position])
-        return view
+        return convertViewLocal
     }
 }
